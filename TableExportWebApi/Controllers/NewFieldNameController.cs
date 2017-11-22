@@ -20,14 +20,14 @@ namespace TableExportWebApi.Models
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] FieldName fieldName)
+        public IActionResult Post([FromBody] FieldName parameter)
         {
-            if (fieldName==null)
+            if (parameter==null)
             {
                 return BadRequest();
             }
 
-            fieldNameContext.FieldNames.Add(fieldName);
+            fieldNameContext.FieldNames.Add(parameter);
             fieldNameContext.SaveChanges();
 
             return StatusCode(201);

@@ -12,7 +12,7 @@ namespace TableExportWebApi.Models
         {
         }
 
-        public DbSet<CustomerData> Customers {
+        public DbSet<CustomerData> CustomerDatas {
             get;
             set;
         }
