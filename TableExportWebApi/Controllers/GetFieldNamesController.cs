@@ -10,11 +10,11 @@ using TableExportWebApi.Models;
 namespace TableExportWebApi.Controllers
 {
     [Route("api/get-field-names")]
-    public class GetFieldNames : Controller
+    public class GetFieldNamesController : Controller
     {
         FieldNameContext fieldNameContext;
 
-        public GetFieldNames(FieldNameContext f)
+        public GetFieldNamesController(FieldNameContext f)
         {
             fieldNameContext = f;
             
@@ -28,7 +28,6 @@ namespace TableExportWebApi.Controllers
             }
         }
 
-        // GET: api/values
         [HttpGet]
         public IEnumerable<FieldName> Get()
         {

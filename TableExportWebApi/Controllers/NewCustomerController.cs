@@ -18,7 +18,6 @@ namespace TableExportWebApi.Controllers
             return DateTime.Now.ToFileTime();
         }
 
-        // GET: api/root
         [HttpGet]
         public long Get()
         {
