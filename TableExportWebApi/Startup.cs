@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+
+using TableExportWebApi.Models;
 
 namespace TableExportWebApi
 {
@@ -23,6 +26,8 @@ namespace TableExportWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CustomerDataContext>(opt => opt.UseInMemoryDatabase("CustomerData"));
+            services.AddDbContext<FieldNameContext>(opt => opt.UseInMemoryDatabase("FieldName"));
             services.AddMvc();
         }
 
