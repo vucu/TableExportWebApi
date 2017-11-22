@@ -16,5 +16,12 @@ namespace TableExportWebApi.Models
             get;
             set;
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Set primary key
+            modelBuilder.Entity<CustomerData>()
+                .HasKey(m => new { m.customerId, m.fieldName });
+        }
     }
 }
