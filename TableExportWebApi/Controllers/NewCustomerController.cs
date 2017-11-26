@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using TableExportWebApi.Models;
+using System.Net.Http;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +24,13 @@ namespace TableExportWebApi.Controllers
         public long Get()
         {
             return generateUniqueId();
+        }
+
+        // Allow OPTIONS
+        [HttpOptions]
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
         }
     }
 }
