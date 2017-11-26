@@ -69,7 +69,7 @@ namespace TableExportWebApi.Controllers
 
             document.Open();
 
-            document.Add(new Paragraph("Danh sách khách hàng (Họ, Đệm, Tên)"));
+            document.Add(new Paragraph("Danh sách khách hàng"));
             document.Add(getTable());
 
             document.Close();
