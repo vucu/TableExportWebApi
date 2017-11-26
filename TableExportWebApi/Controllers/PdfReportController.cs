@@ -25,6 +25,13 @@ namespace TableExportWebApi.Controllers
         {
             PdfPTable table = new PdfPTable(fieldNameContext.FieldNames.Count());
 
+            HashSet<long> customerIds = new HashSet<long>();
+            foreach (var customer in customerDataContext.CustomerDatas)
+            {
+                long id = customer.customerId;
+                customerIds.Add(id);
+            }
+
             // Table header
             foreach (var fieldName in fieldNameContext.FieldNames)
             {
@@ -32,12 +39,12 @@ namespace TableExportWebApi.Controllers
             }
 
             // Table contents
-            foreach (var customerData in customerDataContext.CustomerDatas)
+            foreach (var customerId in customerIds)
             {
                 foreach (var fieldName in fieldNameContext.FieldNames)
                 {
                     var selectedCustomerData = customerDataContext.CustomerDatas.FirstOrDefault(
-                        c => (c.customerId == customerData.customerId && c.fieldName == fieldName.name));
+                        c => (c.customerId == customerId && c.fieldName == fieldName.name));
                     if (selectedCustomerData!=null && selectedCustomerData.fieldValue!=null)
                     {
                         table.AddCell(selectedCustomerData.fieldValue);
