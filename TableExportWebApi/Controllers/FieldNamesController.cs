@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 
 using TableExportWebApi.Models;
+using System.Net.Http;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,17 +41,24 @@ namespace TableExportWebApi.Controllers
 
         // POST: adding a new field name
         [HttpPost]
-        public void Post([FromBody]FieldName parameter)
+        public IActionResult Post([FromBody]FieldName parameter)
         {
             if (parameter == null)
             {
-                return;
+                return BadRequest();
             }
 
             fieldNameContext.FieldNames.Add(parameter);
             fieldNameContext.SaveChanges();
 
-            return;
+            return StatusCode(201);
+        }
+
+        // Allow OPTIONS
+        [HttpOptions]
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
         }
     }
 }
