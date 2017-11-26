@@ -28,7 +28,6 @@ namespace TableExportWebApi
         {
             services.AddDbContext<CustomerDataContext>(opt => opt.UseInMemoryDatabase("CustomerData"));
             services.AddDbContext<FieldNameContext>(opt => opt.UseInMemoryDatabase("FieldName"));
-            services.AddCors();
             services.AddMvc();
         }
 
@@ -39,10 +38,6 @@ namespace TableExportWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // Shows UseCors with CorsPolicyBuilder.
-            app.UseCors(builder =>
-               builder.WithOrigins("*"));
 
             app.UseMvc();
         }
