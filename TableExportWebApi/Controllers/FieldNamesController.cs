@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+
 using TableExportWebApi.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TableExportWebApi.Controllers
 {
-    [Route("api/get-field-names")]
-    public class GetFieldNamesController : Controller
+    [Route("api/field-names")]
+    public class FieldNamesController : Controller
     {
         FieldNameContext fieldNameContext;
 
-        public GetFieldNamesController(FieldNameContext f)
+        public FieldNamesController(FieldNameContext f)
         {
             fieldNameContext = f;
-            
+
             // Add a few field names if it doesn't have any
             if (fieldNameContext.FieldNames.Count() == 0)
             {
@@ -28,10 +29,26 @@ namespace TableExportWebApi.Controllers
             }
         }
 
+        // GET: get all field names
         [HttpGet]
         public IEnumerable<FieldName> Get()
         {
             return fieldNameContext.FieldNames.AsEnumerable(); ;
+        }
+
+        // POST: adding a new field name
+        [HttpPost]
+        public void Post([FromBody]FieldName parameter)
+        {
+            if (parameter == null)
+            {
+                return;
+            }
+
+            fieldNameContext.FieldNames.Add(parameter);
+            fieldNameContext.SaveChanges();
+
+            return;
         }
     }
 }

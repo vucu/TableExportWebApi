@@ -20,15 +20,6 @@ namespace TableExportWebApi.Controllers
         {
             customerDataContext = c;
             fieldNameContext = f;
-
-            // Add a few field names if it doesn't have any
-            if (fieldNameContext.FieldNames.Count() == 0)
-            {
-                fieldNameContext.FieldNames.Add(new FieldName { name = "Họ" });
-                fieldNameContext.FieldNames.Add(new FieldName { name = "Đệm" });
-                fieldNameContext.FieldNames.Add(new FieldName { name = "Tên" });
-                fieldNameContext.SaveChanges();
-            }
         }
 
         // GET api/customers
