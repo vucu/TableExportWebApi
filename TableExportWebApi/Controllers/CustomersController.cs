@@ -79,6 +79,24 @@ namespace TableExportWebApi.Controllers
             return StatusCode(201);
         }
 
+        // DELETE api/customers/{id}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            // Mark all records of this customer to delete
+            var customerDataToDelete = customerDataContext.CustomerDatas
+                .Where(c => c.customerId == id);
+            foreach (CustomerData cd in customerDataToDelete)
+            {
+                customerDataContext.CustomerDatas.Remove(cd);
+            }
+
+            // Save changes
+            customerDataContext.SaveChanges();
+
+            return StatusCode(205);
+        }
+
         // GET api/customers/{id}
         [HttpGet("{id}")]
         public IEnumerable<CustomerData> Get(long id)
@@ -99,6 +117,12 @@ namespace TableExportWebApi.Controllers
         // Allow OPTIONS
         [HttpOptions]
         public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+        [HttpOptions("{id}")]
+        public HttpResponseMessage Options(long id)
         {
             return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
         }
