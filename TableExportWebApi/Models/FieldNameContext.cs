@@ -22,7 +22,7 @@ namespace TableExportWebApi.Models
         {
             // Set primary key
             modelBuilder.Entity<FieldName>()
-                .HasKey(m => new { m.name });
+                .HasKey(m => new { m.id });
         }
     }
 }

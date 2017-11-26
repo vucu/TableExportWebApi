@@ -16,10 +16,17 @@ namespace TableExportWebApi.Controllers
     [Route("api/field-names")]
     public class FieldNamesController : Controller
     {
+        CustomerDataContext customerDataContext;
         FieldNameContext fieldNameContext;
 
-        public FieldNamesController(FieldNameContext f)
+        private long generateUniqueId()
         {
+            return DateTime.Now.ToFileTime();
+        }
+
+        public FieldNamesController(CustomerDataContext c, FieldNameContext f)
+        {
+            customerDataContext = c;
             fieldNameContext = f;
 
             // Add a few field names if it doesn't have any
@@ -48,15 +55,55 @@ namespace TableExportWebApi.Controllers
                 return BadRequest();
             }
 
+            // Assign an unique id for the field name
+            parameter.id = generateUniqueId();
+
+            // Add it to the database
             fieldNameContext.FieldNames.Add(parameter);
             fieldNameContext.SaveChanges();
 
             return StatusCode(201);
         }
 
+        // DELETE api/field-names/{id}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            string fieldName = "";
+
+            // Mark all records of this field name to delete
+            var fieldNameToDelete = fieldNameContext.FieldNames
+                .Where(f => f.id == id);
+            foreach (FieldName f in fieldNameToDelete)
+            {
+                fieldName = f.name;
+                fieldNameContext.FieldNames.Remove(f);
+            }
+
+            // Mark all customer data having this field to delete
+            var customerDataToDelete = customerDataContext.CustomerDatas
+                .Where(c => c.fieldName == fieldName);
+            foreach (CustomerData cd in customerDataToDelete)
+            {
+                customerDataContext.CustomerDatas.Remove(cd);
+            }
+
+            // Save changes
+            fieldNameContext.SaveChanges();
+            customerDataContext.SaveChanges();
+
+            return StatusCode(205);
+        }
+
         // Allow OPTIONS
         [HttpOptions]
         public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+        [HttpOptions("{id}")]
+        public HttpResponseMessage Options(long id)
         {
             return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
         }
